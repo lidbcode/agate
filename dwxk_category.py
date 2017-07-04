@@ -11,7 +11,7 @@ import time
 def index():
     url = "https://www.daweixinke.com/sqe.php"
     items = []
-    for c1 in range(-1,0):
+    for c1 in range(-14,0):
         parameter = "?s=/CCKItem/getAdItemList&data[platform]=web&data[pageNum]=10&data[order_status]=10&data[c1]=%s&data[page]="%(c1,)
         for page in range(1,11):
             response = urllib.urlopen(url + parameter + str(page))
@@ -54,9 +54,9 @@ def insert(items):
     values = []
     ds = time.strftime("%Y%m%d", time.localtime())     
     for k in items:
-        values.append("('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')"%(str(ds),k["ad_id"],k["item_id"],k["ad_name"],k["money"],k["ad_coupon_price"],k["image_urls_head"],k["coupon"],k['c1'],k['sales_num']))
+        values.append("('%s','%s','%s','%s','%s','%s','%s','%s','%s')"%(str(ds),k["ad_id"],k["ad_name"],k["money"],k["ad_coupon_price"],k["image_urls_head"],k["coupon"],k['c1'],k['sales_num']))
    
-    sql = "REPLACE INTO coupon.dwxk_itemsinfo(ds,ad_id,item_id,ad_name,coupon_value,price,img_url,coupon_url,c1,sales_num) VALUES %s" % ",".join(values)
+    sql = "REPLACE INTO coupon.dwxk_categoryitems(ds,ad_id,ad_name,coupon_value,price,img_url,coupon_url,c1,sales_num) VALUES %s" % ",".join(values)
     ## print sql
     cur.execute(sql)
     conn.commit()
