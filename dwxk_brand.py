@@ -24,11 +24,11 @@ def insert(items):
     for k in items:
         values.append("('%s','%s','%s','%s')"%(str(ds),k["id"],k["ad_brand_name"],k["brand_logo"]))
    
-    sql = "REPLACE INTO coupon.dwxk_brandinfo(ds,brand_id,ad_brand_name,brand_logo) VALUES %s" % ",".join(values)
+    sql = "REPLACE INTO coupon.dwxk_brandinfo(ds,brand_id,brand_name,brand_logo) VALUES %s" % ",".join(values)
     print sql
-    ##cur.execute(sql)
-    ##conn.commit()
-    ##cur.close()
+    cur.execute(sql)
+    conn.commit()
+    cur.close()
     conn.close()
  
 if __name__ == '__main__':
