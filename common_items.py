@@ -8,23 +8,26 @@ import time
 # Create your views here.
 
 
-def index(url):
+def get_item_info(url,module_source):
     items = []
     response = urllib.urlopen(url)
     result = json.load(response)
     if (result != None):
-        for item in result["data"]["data"]:
+        items = result["data"]["data"]
+        for item in items:
             adId = "&data[adId]=%s" % (item["ad_id"])
             itemId = "&data[itemId]=%s" % (item["item_id"])
             adZoneId = "&data[adZoneId]=18557"
-            addSource = "&data[add_source]=home"
+            addSource = "&data[add_source]=%s"%(module_source)
             isVideo = "&data[isVideo]=0"
             platform = "&data[platform]=web"
             data = adId + itemId + adZoneId + addSource + isVideo + platform
-            coupon = getCoupon(data)
+            coupon = get_coupon_url(data)
             item["coupon"] = coupon
+    return items
 
-def getCoupon(data):
+
+def get_coupon_url(data):
     url = "https://www.daweixinke.com/sqe.php?s=/CCKItem/addCCKItem"
     headers = {
         'Accept': '*/*',
@@ -35,27 +38,10 @@ def getCoupon(data):
     }
     req = urllib2.Request(url, data, headers)
     response = urllib2.urlopen(req)
-    result = json.load(response)
-    coupon = result["data"]["couponShare"]["discount_url"]
-    return coupon
-
-def insert(items):
-    conn=MySQLdb.connect(host='localhost',user='root',passwd='!QAZxsw2',port=3306)
-    cur=conn.cursor()  
-    values = []
-    ds = time.strftime("%Y%m%d", time.localtime())     
-    for k in items:
-        values.append("('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')"%(str(ds),k["ad_id"],k["item_id"],k["ad_name"],k["money"],k["ad_coupon_price"],k["image_urls_head"],k["coupon"],k['c1'],k['sales_num']))
-   
-    sql = "REPLACE INTO coupon.dwxk_itemsinfo(ds,ad_id,item_id,ad_name,coupon_value,price,img_url,coupon_url,c1,sales_num) VALUES %s" % ",".join(values)
-    ## print sql
-    cur.execute(sql)
-    conn.commit()
-    cur.close()
-    conn.close()
- 
-if __name__ == '__main__':
-    index()
-    print "success"
+    result = json.load(response)["data"]
+    if("couponShare" in result):
+        return result["couponShare"]["discount_url"]
+    if("productShare" in result):
+        return result["productShare"]["detail_url"]
 
 
