@@ -35,9 +35,9 @@ def insert(items,brand_id):
     values = []
     ds = time.strftime("%Y%m%d", time.localtime())     
     for k in items:
-        values.append("('%s','%s','%s','%s','%s','%s','%s','%s','%s')"%(str(ds),k["ad_id"],k["ad_name"],k["money"],k["ad_coupon_price"],k["image_urls_head"],k["coupon"],str(brand_id),k['sales_num']))
+        values.append("('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')"%(str(ds),k["ad_id"],k["ad_name"],k["money"],k["ad_coupon_price"],k["image_urls_head"],k["coupon"],str(brand_id),k['sales_num'],k['c1']))
    
-    sql = "REPLACE INTO coupon.dwxk_branditems(ds,ad_id,ad_name,coupon_value,price,img_url,coupon_url,brand_id,sales_num) VALUES %s" % ",".join(values)
+    sql = "REPLACE INTO coupon.dwxk_itemsinfo(ds,ad_id,ad_name,coupon_value,price,img_url,coupon_url,brand_id,sales_num,c1) VALUES %s" % ",".join(values)
     ## print sql
     cur.execute(sql)
     conn.commit()

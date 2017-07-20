@@ -44,9 +44,11 @@ def getCoupon(data):
     }
     req = urllib2.Request(url, data, headers)
     response = urllib2.urlopen(req)
-    result = json.load(response)
-    coupon = result["data"]["couponShare"]["discount_url"]
-    return coupon
+    result = json.load(response)["data"]
+    if("couponShare" in result):
+        return result["couponShare"]["discount_url"]
+    if("productShare" in result):
+        return result["productShare"]["detail_url"]
 
 def insert(items):
     conn=MySQLdb.connect(host='localhost',user='root',passwd='!QAZxsw2',port=3306)
@@ -56,7 +58,7 @@ def insert(items):
     for k in items:
         values.append("('%s','%s','%s','%s','%s','%s','%s','%s','%s')"%(str(ds),k["ad_id"],k["ad_name"],k["money"],k["ad_coupon_price"],k["image_urls_head"],k["coupon"],k['c1'],k['sales_num']))
    
-    sql = "REPLACE INTO coupon.dwxk_categoryitems(ds,ad_id,ad_name,coupon_value,price,img_url,coupon_url,c1,sales_num) VALUES %s" % ",".join(values)
+    sql = "REPLACE INTO coupon.dwxk_itemsinfo(ds,ad_id,ad_name,coupon_value,price,img_url,coupon_url,c1,sales_num) VALUES %s" % ",".join(values)
     ## print sql
     cur.execute(sql)
     conn.commit()
