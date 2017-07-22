@@ -13,7 +13,7 @@ def index():
     items = []
     for c1 in range(-14,0):
         parameter = "?s=/CCKItem/getAdItemList&data[platform]=web&data[pageNum]=10&data[order_status]=10&data[c1]=%s&data[page]="%(c1,)
-        for page in range(1,11):
+        for page in range(1,50):
             response = urllib.urlopen(url + parameter + str(page))
             ## print url + parameter + str(page) 
             result = json.load(response)
@@ -40,7 +40,7 @@ def getCoupon(data):
         'Accept-Language': 'zh-CN,zh;q=0.8',
         'Content-Type': 'application/x-www-form-urlencoded',
         'charset': 'UTF-8',
-        'Cookie': 'UM_distinctid=15b2a27ba8581-01c694495-66121479-15f900-15b2a27ba88cc; cck_access_token=E39E77BAF9D80C3CFEE2529120D8048C; C NZZDATA1261673522=1222127928-1497702020-https%253A%252F%252Fwww.daweixinke.com%252F%7C1497702020; PHPSESSID=9goqo4bnidkigl5qt2c40kips4; CNZ ZDATA1261294143=8452916-1491059078-https%253A%252F%252Fwww.baidu.com%252F%7C1497887195'
+        'Cookie':'UM_distinctid=15cafebfdc158-0f5d0448a59178-323f5c0f-1fa400-15cafebfdc2790; m_cck_access_token=54AC5F8C8B8B93CE107B95BB46E8D9D8; CNZZDATA1261674589=503176748-1499417870-https%253A%252F%252Fwww.daweixinke.com%252F%7C1499417870; CNZZDATA1261330578=1564621818-1499414616-%7C1499845721; cck_access_token=10B3EBD7ABC237329ABB699F9074B97D; PHPSESSID=15n4ms5eb1ghogsvkcml6blo07; gwapp_userId=10360; CNZZDATA1261674382=1815685325-1499077465-https%253A%252F%252Fwww.daweixinke.com%252F%7C1500538419; CNZZDATA1261294143=450722296-1497595338-https%253A%252F%252Fwww.google.co.jp%252F%7C1500534407'
     }
     req = urllib2.Request(url, data, headers)
     response = urllib2.urlopen(req)
@@ -56,7 +56,7 @@ def insert(items):
     values = []
     ds = time.strftime("%Y%m%d", time.localtime())     
     for k in items:
-        values.append("('%s','%s','%s','%s','%s','%s','%s','%s','%s')"%(str(ds),k["ad_id"],k["ad_name"],k["money"],k["ad_coupon_price"],k["image_urls_head"],k["coupon"],k['c1'],k['sales_num']))
+        values.append("""("%s","%s","%s","%s","%s","%s","%s","%s","%s")"""%(str(ds),k["ad_id"],k["ad_name"],k["money"],k["ad_coupon_price"],k["image_urls_head"],k["coupon"],k['c1'],k['sales_num']))
    
     sql = "REPLACE INTO coupon.dwxk_itemsinfo(ds,ad_id,ad_name,coupon_value,price,img_url,coupon_url,c1,sales_num) VALUES %s" % ",".join(values)
     ## print sql
