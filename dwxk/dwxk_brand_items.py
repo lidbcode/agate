@@ -1,8 +1,9 @@
-import urllib
-import urllib2
 import json
-import MySQLdb
 import time
+import urllib
+
+import MySQLdb
+
 import common_items
 
 
@@ -24,7 +25,7 @@ def index():
     for brand_id in brand_ids:
         url = "%s&data[platform]=web&data[pageNum]=10&data[order_status]=9&data[ad_brand_id][]=%s&data[page]="%(base_url,brand_id)
         for page in range(1,11):
-            items = common_items.get_item_info(url + str(page),"brand")    
+            items = common_items.get_item_info(url + str(page), "brand")
             print "################ %s" %(brand_id,)
             if(len(items) > 0):
                 insert(items,brand_id)
