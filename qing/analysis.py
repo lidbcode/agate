@@ -7,7 +7,7 @@ import json
 def work():
     ds = 20170820
     res_dic = {}
-    num = 5
+    num = 7
     for r in range(1, num + 1):
         fin = open("coupon-%s-%s.json" % (ds, r))
         for line in fin:
