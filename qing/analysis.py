@@ -5,9 +5,10 @@ import json
 
 
 def work():
-    ds = time.strftime("%Y%m%d", time.localtime())
+    ds = 20170820
     res_dic = {}
-    for r in range(1, 3):
+    num = 5
+    for r in range(1, num + 1):
         fin = open("coupon-%s-%s.json" % (ds, r))
         for line in fin:
             line_json = json.loads(line)
@@ -45,7 +46,7 @@ def work():
             else:
                 freq_dic[online_time] = freq_dic[online_time] + 1
 
-    fout = open("res.csv", "w")
+    fout = open("res-%s.csv" % (num,), "w")
     for freq in sorted(freq_dic.keys()):
         fout.write("%s,%s\n" % (freq, freq_dic[freq]))
     fout.close()
