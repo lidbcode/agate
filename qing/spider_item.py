@@ -9,7 +9,7 @@ import json
 def work():
     driver = webdriver.Chrome("chromedriver.exe")
     ds = time.strftime("%Y%m%d", time.localtime())
-    fout = open("data-%s.json" % (ds,), 'w')
+    fout = open("%s/data-%s.json" % (ds, ds), 'w')
     result = []
     for round in range(1, 101):
         print "the %s page start " % (round,)

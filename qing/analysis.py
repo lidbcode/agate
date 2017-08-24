@@ -9,7 +9,7 @@ def work():
     res_dic = {}
     num = 11
     for r in range(1, num + 1):
-        fin = open("coupon-%s-%s.json" % (ds, r))
+        fin = open("%s/coupon-%s-%s.json" % (ds, ds, r))
         for line in fin:
             line_json = json.loads(line)
             item_id = line_json["itemId"]
